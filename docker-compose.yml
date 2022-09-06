@@ -1,0 +1,40 @@
+version: "3.9"
+services:
+  web:
+    build: 
+      context: .
+      dockerfile: ./php/Dockerfile
+    container_name: i_will_web
+    volumes:
+      - ./src:/var/www/html
+      - ./apache/sites-available:/etc/apache2/sites-available
+    ports:
+      - 8080:80
+    env_file: env/.env.mysql
+
+  db:
+    platform: linux/x86_64
+    image: mysql:8.0.26
+    container_name: i_will_db
+    environment:
+      MYSQL_HOST: db
+      MYSQL_DATABASE: i_will_db
+      MYSQL_USER: willadmin
+      MYSQL_PASSWORD: password51
+      MYSQL_ROOT_PASSWORD: password51
+    volumes:
+      - db-data:/var/lib/mysql
+
+  phpmyadmin:
+    depends_on:
+      - db
+    image: phpmyadmin/phpmyadmin:latest
+    ports:
+      - 8180:80
+    restart: always
+    environment:
+      PMA_USER: willadmin
+      PMA_PASSWORD: password51
+
+volumes:
+  db-data:
