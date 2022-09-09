@@ -45,22 +45,88 @@
                 </form>
                 {{-- 追記 --}}
                 @if ($tasks->isNotEmpty())
-                    <div class="max-w-7xl mx-auto mt-20">
+                    <div class="max-w-7xl mx-auto mt-20" style="margin-top: 50px;">
                         <div class="inline-block min-w-full py-2 align-middle">
                             <div class="overflow-hidden shadow ring-1 ring-black ring-opacity-5 md:rounded-lg">
                                 <table class="w-full divide-y divide-gray-300">
                                     <thead class="bg-gray-50">
-                                        <tr class="w-full">
+                                        <tr class="w-full" style="text-align: left; background-color: grey">
                                             <th scope="col"
-                                                class="w-7/10 py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900" style="text-align: left">
+                                                class="w-6/10 mt-10 py-3.5 pl-4 text-gray-900" style="text-align: left; color: white">
                                                 タスク</th>
-                                            <th scope="col" class="w-3/10 py-3.5 pl-3 pr-4 sm:pr-6" style="text-align: left">
+                                            <th scope="col" class="w-4/10 py-3.5 pl-4 text-gray-900" style="text-align: left; color: white">
                                                 <span class="sr-only">Actions</span>
                                             </th>
                                         </tr>
                                     </thead>
                                     <tbody class="divide-y divide-gray-200 bg-white">
                                         @foreach ($tasks as $item)
+                                            <tr>
+                                                <td class="px-3 py-4 text-sm text-gray-500">
+                                                    <div>
+                                                        {{ $item->name }}
+                                                    </div>
+                                                </td>
+                                                <td class="p-0 text-right text-sm font-medium">
+                                                    <div class="flex justify-end">
+                                                        <div>
+                                                            <form action="/tasks/{{ $item->id }}"
+                                                                method="post"
+                                                                class="inline-block text-gray-500 font-medium"
+                                                                role="menuitem" tabindex="-1">
+                                                                @csrf
+                                                                @method('PUT')
+                                                                {{-- 追記 --}}
+                                                                <input type="hidden" name="status" value="{{$item->status}}">
+                                                                {{-- 追記 --}}
+                                                                <button type="submit"
+                                                                    class="bg-emerald-700 py-4 w-20 text-black md:hover:bg-emerald-800 transition-colors">完了</button>
+                                                            </form>
+                                                        </div>
+                                                        <div>
+                                                            <a href="/tasks/{{ $item->id }}/edit/"
+                                                                class="inline-block text-center py-4 w-20 underline underline-offset-2 text-sky-600 md:hover:bg-sky-100 transition-colors">編集</a>
+                                                        </div>
+                                                        <div>
+                                                            <form onsubmit="return deleteTask();"
+                                                                action="/tasks/{{ $item->id }}" method="post"
+                                                                class="inline-block text-gray-500 font-medium"
+                                                                role="menuitem" tabindex="-1">
+                                                                @csrf
+                                                                @method('DELETE')
+                                                                <button type="submit"
+                                                                    class="py-4 w-20 md:hover:bg-slate-200 transition-colors">削除</button>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                @endif
+                {{-- 追記ここまで --}}
+                {{-- 追記 --}}
+                @if ($tasks->isNotEmpty())
+                    <div class="max-w-7xl mx-auto mt-20" style="margin-top: 50px;">
+                        <div class="inline-block min-w-full py-2 align-middle">
+                            <div class="overflow-hidden shadow ring-1 ring-black ring-opacity-5 md:rounded-lg">
+                                <table class="w-full divide-y divide-gray-300">
+                                    <thead class="bg-gray-50">
+                                        <tr class="w-full" style="text-align: left; background-color: grey">
+                                            <th scope="col"
+                                                class="w-7/10 py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900" style="text-align: left; color:white">
+                                                完了済タスク</th>
+                                            <th scope="col" class="w-3/10 py-3.5 pl-3 pr-4 sm:pr-6" style="text-align: left; color:white">
+                                                <span class="sr-only">Actions</span>
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="divide-y divide-gray-200 bg-white">
+                                        @foreach ($complate_tasks as $item)
                                             <tr>
                                                 <td class="px-3 py-4 text-sm text-gray-500">
                                                     <div>
