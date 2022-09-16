@@ -15,9 +15,43 @@ class TaskController extends Controller
      */
     public function index()
     {
-        $tasks = Task::where('status', false)->get();
-        $complate_tasks = Task::where('status', true)->get();
-        return view('tasks.index', compact('tasks', 'complate_tasks'));
+        $get_tasks = Task::get();
+
+        $not_tasks = []; // 1：未対応
+        $process_tasks = []; // 2：処理中
+        $wait_tasks = []; // 3：確認待ち
+        $completion_tasks = []; // 4：完了
+
+        foreach ($get_tasks as $task) {
+            // 優先度の表示を文字に（数値→文字）
+            $priority = $task->priority;
+            if ($priority == 1) {
+                $task->priority = "至急";
+            } elseif ($priority == 2) {
+                $task->priority = "高";
+            } elseif ($priority == 3) {
+                $task->priority = "中";
+            } elseif ($priority == 4) {
+                $task->priority = "低";
+            }
+
+            // 状態ごとに配列を分ける
+            if ($task->status == 1) {
+                // 未対応
+                $not_tasks[] = $task;
+            } elseif ($task->status == 2) {
+                // 処理中
+                $process_tasks[] = $task;
+            } elseif ($task->status == 3) {
+                // 確認待ち
+                $wait_tasks[] = $task;
+            } elseif ($task->status == 4) {
+                // 完了
+                $completion_tasks[] = $task;
+            }
+        }
+        return view('tasks.index', compact('not_tasks', 'process_tasks', 'wait_tasks', 'completion_tasks'));
+    
     }
 
     /**
@@ -51,6 +85,9 @@ class TaskController extends Controller
         
         //モデル->カラム名 = 値 で、データを割り当てる
         $task->name = $request->input('task_name');
+        $task->limit = $request->input('task_limit');
+        $task->status = $request->input('task_status');
+        $task->priority = $request->input('task_priority');
         
         //データベースに保存
         $task->save();
@@ -117,7 +154,7 @@ class TaskController extends Controller
             $task = Task::find($id);
         
             //モデル->カラム名 = 値 で、データを割り当てる
-            $task->status = true; //true:完了、false:未完了
+            $task->status = 4; //true:完了、false:未完了
         
             //データベースに保存
             $task->save();
