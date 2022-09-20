@@ -38,13 +38,35 @@
                                 </div>
                             @enderror
                         </label>
+                        <div class="form-group">
+                            <label for="date2" class="col-form-label">期限日：</label>
+                            <input type="date" class="form-control" id="tsask_date" name="tsask_date">
+                        </div>
+                        <div class="form-group">
+                            <label for="date2" class="col-form-label">状態：</label>
+                            <select class="form-control" id="task_status" name="task_status">
+                                <option value="1">未対応</option>
+                                <option value="2">処理中</option>
+                                <option value="3">確認待ち</option>
+                                <option value="4">完了</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="date2" class="col-form-label">優先度：</label>
+                            <select class="form-control" id="task_priority" name="task_priority">
+                                <option value="1">至急</option>
+                                <option value="2">優先</option>
+                                <option value="3" selected>中</option>
+                                <option value="4">低</option>
+                            </select>
+                        </div>
 
                         <div class="mt-8 w-full flex items-center justify-center gap-10">
-                            <a href="/tasks" class="block shrink-0 underline underline-offset-2">
-                                戻る
-                            </a>
-                            <button type="submit"
-                                class="p-4 bg-sky-800 text-black w-full max-w-xs hover:bg-sky-900 transition-colors">
+                            <button class="inline-flex items-center px-4 py-2 text-base font-medium leading-6 text-green-500 whitespace-no-wrap bg-blue-600 border border-blue-700 rounded-md shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" data-rounded="rounded-md" data-primary="blue-600" data-primary-reset="{}">
+                                <a href="/tasks">戻る</a>
+                            </button>
+                            <button
+                                class="inline-flex items-center px-4 py-2 text-base font-medium leading-6 text-green-500 whitespace-no-wrap bg-blue-600 border border-blue-700 rounded-md shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" data-rounded="rounded-md" data-primary="blue-600" data-primary-reset="{}">
                                 編集する
                             </button>
                         </div>

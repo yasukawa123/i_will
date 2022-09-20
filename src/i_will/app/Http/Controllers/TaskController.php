@@ -85,9 +85,6 @@ class TaskController extends Controller
         
         //モデル->カラム名 = 値 で、データを割り当てる
         $task->name = $request->input('task_name');
-        $task->limit = $request->input('task_limit');
-        $task->status = $request->input('task_status');
-        $task->priority = $request->input('task_priority');
         
         //データベースに保存
         $task->save();
@@ -116,6 +113,7 @@ class TaskController extends Controller
     public function edit($id)
     {
         $task = Task::find($id);
+        var_dump($task);
         return view('tasks.edit', compact('task'));
     }
 
@@ -144,6 +142,9 @@ class TaskController extends Controller
         
             //モデル->カラム名 = 値 で、データを割り当てる
             $task->name = $request->input('task_name');
+            $task->limit = $request->input('tsask_date');
+            $task->status = $request->input('task_status');
+            $task->priority = $request->input('task_priority');
         
             //データベースに保存
             $task->save();
