@@ -22,13 +22,14 @@ class TaskController extends Controller
         $wait_tasks = []; // 3：確認待ち
         $completion_tasks = []; // 4：完了
 
-        foreach ($get_tasks as $task) {
-            // 優先度の表示を文字に（数値→文字）
+        // 数値を文字表示に変える
+        foreach ($get_tasks as &$task) {
+            // 優先度の表示を文字に
             $priority = $task->priority;
             if ($priority == 1) {
                 $task->priority = "至急";
             } elseif ($priority == 2) {
-                $task->priority = "高";
+                $task->priority = "優先";
             } elseif ($priority == 3) {
                 $task->priority = "中";
             } elseif ($priority == 4) {
@@ -50,8 +51,8 @@ class TaskController extends Controller
                 $completion_tasks[] = $task;
             }
         }
+
         return view('tasks.index', compact('not_tasks', 'process_tasks', 'wait_tasks', 'completion_tasks'));
-    
     }
 
     /**
@@ -85,6 +86,9 @@ class TaskController extends Controller
         
         //モデル->カラム名 = 値 で、データを割り当てる
         $task->name = $request->input('task_name');
+        $task->limit = $request->input('task_limit');
+        $task->status = $request->input('task_status');
+        $task->priority = $request->input('task_priority');
         
         //データベースに保存
         $task->save();
@@ -113,7 +117,6 @@ class TaskController extends Controller
     public function edit($id)
     {
         $task = Task::find($id);
-        var_dump($task);
         return view('tasks.edit', compact('task'));
     }
 

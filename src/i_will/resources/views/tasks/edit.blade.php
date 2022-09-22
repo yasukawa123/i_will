@@ -40,11 +40,20 @@
                         </label>
                         <div class="form-group">
                             <label for="date2" class="col-form-label">期限日：</label>
-                            <input type="date" class="form-control" id="tsask_date" name="tsask_date">
+                            <input type="date" class="form-control" id="tsask_date" name="tsask_date" value="{{ $task->limit }}">
                         </div>
                         <div class="form-group">
                             <label for="date2" class="col-form-label">状態：</label>
-                            <select class="form-control" id="task_status" name="task_status">
+                            <select class="form-control" id="task_status" name="task_status" value="{{ $task->status }}">
+                                @if ($task->status === 1)
+                                    <option value="{{ $task->status }}" selected="selected">未対応</option>
+                                @elseif ($task->status === 2)
+                                    <option value="{{ $task->status }}" selected="selected">処理中</option>
+                                @elseif ($task->status === 3)
+                                    <option value="{{ $task->status }}" selected="selected">確認待ち</option>
+                                @elseif ($task->status === 4)
+                                    <option value="{{ $task->status }}" selected="selected">完了</option>
+                                @endif
                                 <option value="1">未対応</option>
                                 <option value="2">処理中</option>
                                 <option value="3">確認待ち</option>
@@ -53,10 +62,19 @@
                         </div>
                         <div class="form-group">
                             <label for="date2" class="col-form-label">優先度：</label>
-                            <select class="form-control" id="task_priority" name="task_priority">
+                            <select class="form-control" id="task_priority" name="task_priority" value="{{ $task->priority }}">
+                                @if ($task->priority === 1)
+                                    <option value="{{ $task->priority }}" selected="selected">至急</option>
+                                @elseif ($task->priority === 2)
+                                    <option value="{{ $task->priority }}" selected="selected">優先</option>
+                                @elseif ($task->priority === 3)
+                                    <option value="{{ $task->priority }}" selected="selected">中</option>
+                                @elseif ($task->priority === 4)
+                                    <option value="{{ $task->priority }}" selected="selected">低</option>
+                                @endif
                                 <option value="1">至急</option>
                                 <option value="2">優先</option>
-                                <option value="3" selected>中</option>
+                                <option value="3">中</option>
                                 <option value="4">低</option>
                             </select>
                         </div>

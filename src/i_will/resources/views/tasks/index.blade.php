@@ -22,6 +22,9 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6">
             <div class="py-[100px]">
                 <p class="text-2xl font-bold text-center">本日のタスク</p>
+                <p style="color:lightgrey">例）YTA-01・・・Yasukawa Task Applicaton - 連番 【タイトル】 内容<br>
+                    ※APC-001・・・HWタスク
+                </p>
                 <form action="/tasks" method="post" class="mt-10">
                 @csrf
                     <div class="flex flex-col items-center">
@@ -39,12 +42,12 @@
                         </label>
                         <div class="form-group">
                             <label for="date2" class="col-form-label">期限日：</label>
-                            <input type="date" class="form-control" id="date2" name="date2">
+                            <input type="date" class="form-control" id="task_limit" name="task_limit">
                         </div>
                         <div class="form-group">
                             <label for="date2" class="col-form-label">状態：</label>
                             <select class="form-control" id="task_status" name="task_status">
-                                <option value="1">未対応</option>
+                                <option value="1" selected>未対応</option>
                                 <option value="2">処理中</option>
                                 <option value="3">確認待ち</option>
                                 <option value="4">完了</option>
@@ -64,6 +67,7 @@
                         </button>
                     </div>
                 </form>
+                
                 {{-- 追記 --}}
                 @if ($not_tasks)
                     <div class="max-w-7xl mx-auto mt-20" style="margin-top: 50px;">
@@ -75,6 +79,12 @@
                                             <th scope="col"
                                                 class="w-6/10 mt-10 py-3.5 pl-4 text-gray-900" style="text-align: left; color: white">
                                                 未対応</th>
+                                            <th scope="col" class="w-4/10 py-3.5 pl-4 text-gray-900" style="text-align: left; color: white">
+                                                <span class="sr-only">優先度</span>
+                                            </th>
+                                            <th scope="col" class="w-4/10 py-3.5 pl-4 text-gray-900" style="text-align: left; color: white">
+                                                <span class="sr-only">期日</span>
+                                            </th>
                                             <th scope="col" class="w-4/10 py-3.5 pl-4 text-gray-900" style="text-align: left; color: white">
                                                 <span class="sr-only">Actions</span>
                                             </th>
@@ -88,6 +98,16 @@
                                                         {{ $item->name }}
                                                     </div>
                                                 </td>
+                                                <td class="px-3 py-4 text-sm text-gray-500">
+                                                    <div>
+                                                        {{ $item->priority }}
+                                                    </div>
+                                                </td>
+                                                <td class="px-3 py-4 text-sm text-gray-500">
+                                                    <div>
+                                                        {{ $item->limit }}
+                                                    </div>
+                                                </td>
                                                 <td class="p-0 text-right text-sm font-medium">
                                                     <div class="flex justify-end">
                                                         <div>
@@ -130,6 +150,7 @@
                     </div>
                 @endif
                 {{-- 追記ここまで --}}
+
                 {{-- 追記 --}}
                 @if ($process_tasks)
                     <div class="max-w-7xl mx-auto mt-20" style="margin-top: 50px;">
@@ -141,6 +162,12 @@
                                             <th scope="col"
                                                 class="w-6/10 mt-10 py-3.5 pl-4 text-gray-900" style="text-align: left; color: white">
                                                 処理中</th>
+                                            <th scope="col" class="w-4/10 py-3.5 pl-4 text-gray-900" style="text-align: left; color: white">
+                                                <span class="sr-only">優先度</span>
+                                            </th>
+                                            <th scope="col" class="w-4/10 py-3.5 pl-4 text-gray-900" style="text-align: left; color: white">
+                                                <span class="sr-only">期日</span>
+                                            </th>
                                             <th scope="col" class="w-4/10 py-3.5 pl-4 text-gray-900" style="text-align: left; color: white">
                                                 <span class="sr-only">Actions</span>
                                             </th>
@@ -154,6 +181,16 @@
                                                         {{ $item->name }}
                                                     </div>
                                                 </td>
+                                                <td class="px-3 py-4 text-sm text-gray-500">
+                                                    <div>
+                                                        {{ $item->priority }}
+                                                    </div>
+                                                </td>
+                                                <td class="px-3 py-4 text-sm text-gray-500">
+                                                    <div>
+                                                        {{ $item->limit }}
+                                                    </div>
+                                                </td>
                                                 <td class="p-0 text-right text-sm font-medium">
                                                     <div class="flex justify-end">
                                                         <div>
@@ -196,6 +233,7 @@
                     </div>
                 @endif
                 {{-- 追記ここまで --}}
+
                 {{-- 追記 --}}
                 @if ($wait_tasks)
                     <div class="max-w-7xl mx-auto mt-20" style="margin-top: 50px;">
@@ -207,6 +245,12 @@
                                             <th scope="col"
                                                 class="w-6/10 mt-10 py-3.5 pl-4" style="text-align: left; color: white">
                                                 確認待ち</th>
+                                            <th scope="col" class="w-4/10 py-3.5 pl-4 text-gray-900" style="text-align: left; color: white">
+                                                <span class="sr-only">優先度</span>
+                                            </th>
+                                            <th scope="col" class="w-4/10 py-3.5 pl-4 text-gray-900" style="text-align: left; color: white">
+                                                <span class="sr-only">期日</span>
+                                            </th>
                                             <th scope="col" class="w-4/10 py-3.5 pl-4 text-gray-900" style="text-align: left; color: white">
                                                 <span class="sr-only">Actions</span>
                                             </th>
@@ -220,6 +264,16 @@
                                                         {{ $item->name }}
                                                     </div>
                                                 </td>
+                                                <td class="px-3 py-4 text-sm text-gray-500">
+                                                    <div>
+                                                        {{ $item->priority }}
+                                                    </div>
+                                                </td>
+                                                <td class="px-3 py-4 text-sm text-gray-500">
+                                                    <div>
+                                                        {{ $item->limit }}
+                                                    </div>
+                                                </td>
                                                 <td class="p-0 text-right text-sm font-medium">
                                                     <div class="flex justify-end">
                                                         <div>
@@ -262,6 +316,7 @@
                     </div>
                 @endif
                 {{-- 追記ここまで --}}
+
                 {{-- 追記 --}}
                 @if ($completion_tasks)
                     <div class="max-w-7xl mx-auto mt-20" style="margin-top: 50px;">
@@ -269,10 +324,16 @@
                             <div class="overflow-hidden shadow ring-1 ring-black ring-opacity-5 md:rounded-lg">
                                 <table class="w-full divide-y divide-gray-300">
                                     <thead class="bg-gray-50">
-                                        <tr class="w-full" style="text-align: left; background-color: brown">
+                                        <tr class="w-full" style="text-align: left; background-color: crimson">
                                             <th scope="col"
                                                 class="w-6/10 mt-10 py-3.5 pl-4" style="text-align: left; color: white">
                                                 完了</th>
+                                            <th scope="col" class="w-4/10 py-3.5 pl-4 text-gray-900" style="text-align: left; color: white">
+                                                <span class="sr-only">優先度</span>
+                                            </th>
+                                            <th scope="col" class="w-4/10 py-3.5 pl-4 text-gray-900" style="text-align: left; color: white">
+                                                <span class="sr-only">期日</span>
+                                            </th>
                                             <th scope="col" class="w-4/10 py-3.5 pl-4 text-gray-900" style="text-align: left; color: white">
                                                 <span class="sr-only">Actions</span>
                                             </th>
@@ -284,6 +345,16 @@
                                                 <td class="px-3 py-4 text-sm text-gray-500">
                                                     <div>
                                                         {{ $item->name }}
+                                                    </div>
+                                                </td>
+                                                <td class="px-3 py-4 text-sm text-gray-500">
+                                                    <div>
+                                                        {{ $item->priority }}
+                                                    </div>
+                                                </td>
+                                                <td class="px-3 py-4 text-sm text-gray-500">
+                                                    <div>
+                                                        {{ $item->limit }}
                                                     </div>
                                                 </td>
                                                 <td class="p-0 text-right text-sm font-medium">
